@@ -1,8 +1,8 @@
 {
-  "name": "chromium",
-  "version": "1.0.2",
-  "description": "Chromium binaries for Node.js projects",
-  "repository": "dtolstyi/node-chromium",
+  "name": "chromium-binary",
+  "version": "60.0.3112.0",
+  "description": "Chromium binaries (chromium version corresponds to package version) for Node.js projects",
+  "repository": "2do2go/node-chromium",
   "main": "index.js",
   "os": [
     "darwin",
@@ -24,11 +24,8 @@
     "chrome",
     "browser"
   ],
-  "author": "Dmytro TOLSTYI <dmytro.tolstyi@gmail.com>",
+  "author": "2do2go team <dev.2do2go@gmail.com>",
   "license": "MIT",
-  "xo": {
-    "space": 4
-  },
   "dependencies": {
     "extract-zip": "^1.6.5",
     "got": "^7.1.0",

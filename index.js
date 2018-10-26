@@ -5,15 +5,15 @@ const fs = require('fs');
 const utils = require('./utils');
 
 function getBinaryPath() {
-    const path = utils.getOsChromiumBinPath();
+	const path = utils.getOsChromiumBinPath();
 
-    if (fs.existsSync(path)) {
-        return path;
-    }
+	if (fs.existsSync(path)) {
+		return path;
+	}
 
-    return undefined;
+	return undefined;
 }
 
 module.exports = {
-    path: getBinaryPath()
+	path: getBinaryPath()
 };

@@ -10,28 +10,28 @@ const config = require('./config');
 const chromium = require('./install');
 
 test.before(t => {
-    // Deleting output folder
-    const outPath = config.BIN_OUT_PATH;
-    console.log(`Deleting output folder: [${outPath}]`);
+	// Deleting output folder
+	const outPath = config.BIN_OUT_PATH;
+	console.log(`Deleting output folder: [${outPath}]`);
 
-    if (fs.existsSync(outPath)) {
-        rimraf.sync(outPath);
-    }
-    t.pass();
+	if (fs.existsSync(outPath)) {
+		rimraf.sync(outPath);
+	}
+	t.pass();
 });
 
 test('Canary Test', t => {
-    t.pass();
+	t.pass();
 });
 
 test('Before Install Process', t => {
-    const binPath = utils.getOsChromiumBinPath();
-    t.false(fs.existsSync(binPath), `Chromium binary is found in: [${binPath}]`);
+	const binPath = utils.getOsChromiumBinPath();
+	t.false(fs.existsSync(binPath), `Chromium binary is found in: [${binPath}]`);
 });
 
 test('Chromium Install', async t => {
-    await chromium.then(() => {
-        const binPath = utils.getOsChromiumBinPath();
-        t.true(fs.existsSync(binPath), `Chromium binary is not found in: [${binPath}]`);
-    });
+	await chromium.then(() => {
+		const binPath = utils.getOsChromiumBinPath();
+		t.true(fs.existsSync(binPath), `Chromium binary is not found in: [${binPath}]`);
+	});
 });
