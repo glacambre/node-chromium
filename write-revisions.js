@@ -1,8 +1,8 @@
 'use strict';
 
 const fs = require('fs');
-const got = require('got');
 const pathUtils = require('path');
+const got = require('got');
 
 const config = require('./config');
 const utils = require('./utils');
@@ -23,7 +23,11 @@ function checkArchiveExists(url) {
         got.stream(url)
             .on('response', () => resolve(true))
             .on('error', error => {
-                error.statusCode === 404 ? resolve(false) : reject(error);
+                if (error.statusCode === 404) {
+                    resolve(false);
+                } else {
+                    reject(error);
+                }
             });
     });
 }
@@ -127,7 +131,11 @@ function writeOperationSystemRevisions(operationSystemRevisions) {
             operationSystemRevisionsPath,
             JSON.stringify(operationSystemRevisions, null, 4),
             error => {
-                error ? reject(error) : resolve();
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve();
+                }
             }
         );
     });
