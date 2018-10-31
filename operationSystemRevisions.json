@@ -1,0 +1,21 @@
+[
+    {
+        "platform": "linux",
+        "architecture": "x64",
+        "revision": "601373"
+    },
+    {
+        "platform": "win32",
+        "architecture": "x32",
+        "revision": "601372"
+    },
+    {
+        "platform": "win32",
+        "architecture": "x64",
+        "revision": "601372"
+    },
+    {
+        "platform": "darwin",
+        "revision": "601376"
+    }
+]
