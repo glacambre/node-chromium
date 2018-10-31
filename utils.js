@@ -8,10 +8,11 @@ module.exports = {
     getOsChromiumBinPath() {
         const platform = process.platform;
 
-        let chromiumFolderName = platform;
+        let chromiumFolderNamePostfix = platform;
         if (platform === 'darwin') {
-            chromiumFolderName = 'mac';
+            chromiumFolderNamePostfix = 'mac';
         }
+        const chromiumFolderName = `chrome-${chromiumFolderNamePostfix}`;
 
         let binPath = path.join(config.BIN_OUT_PATH, chromiumFolderName);
 
