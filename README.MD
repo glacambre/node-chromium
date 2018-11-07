@@ -4,7 +4,7 @@
 This is fork of [node-chromium](https://github.com/dtolstyi/node-chromium) by Dmytro Tolstyi.
 
 **node-chromium** allows you to easily add [Chromium](https://www.chromium.org/) binaries of desired version to your project and use it for automation, testing, web scraping or just for fun.
-Chromium version will correspond to package version, i.e. if package version is 60.0.3112.0 then chromium of this version will be installed.
+Chromium version will correspond to package version, i.e. if package version is 60.0.3112-0 then chromium 60.0.3112.0 will be installed.
 
 ## Why Chromium?
 [Chromium](https://www.chromium.org/) is an open-source web browser developed and maintained by The Chromium Project. Google Chrome, also released in 2008, is a proprietary web browser developed and maintained by Google. The reason why Chrome and Chromium are tied to each other is that Chome borrows Chromium’s source code.  
