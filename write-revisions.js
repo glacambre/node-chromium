@@ -4,6 +4,7 @@ const fs = require('fs');
 const pathUtils = require('path');
 const got = require('got');
 
+const packageJson = require('./package.json');
 const config = require('./config');
 const utils = require('./utils');
 
@@ -17,6 +18,13 @@ const revisionSearchUrl = 'https://omahaproxy.appspot.com/deps.json';
 const operationSystemRevisionsPath = pathUtils.join(
     __dirname, 'operationSystemRevisions.json'
 );
+
+// Parses chromium version from package version, e.g.:
+// 72.0.3586-2 -> 72.0.3586.2
+// 72.0.3586-2-2 -> 72.0.3586.2
+function parseChromiumVersion(packageVersion) {
+    return packageVersion.split(/\.|-/, 4).join('.');
+}
 
 function checkArchiveExists(url) {
     return new Promise((resolve, reject) => {
@@ -32,13 +40,13 @@ function checkArchiveExists(url) {
     });
 }
 
-function getBaseRevision() {
+function getBaseRevision(version) {
     return new Promise((resolve, reject) => {
         got(
             revisionSearchUrl,
             {
                 query: {
-                    version: config.CHROMIUM_VERSION
+                    version
                 },
                 json: true
             }
@@ -141,7 +149,8 @@ function writeOperationSystemRevisions(operationSystemRevisions) {
     });
 }
 
-module.exports = getBaseRevision()
+module.exports = Promise.resolve(parseChromiumVersion(packageJson.version))
+    .then(chromiumVersion => getBaseRevision(chromiumVersion))
     .then(baseRevision => getOperationSystemRevisions(baseRevision))
     .then(operationSystemRevisions => {
         return writeOperationSystemRevisions(operationSystemRevisions);

@@ -18,7 +18,7 @@ Depending on your needs, you can install module into **devDependencies** (`--sav
 npm install --save chromium
 ```
 
-During the installation process **node-chromium** will find revision number that corresponds release version (if possible), download it and extract into libraries folder. As soon as installation is finished, you are ready to use Chromium in your project:
+During the installation process **node-chromium** will download corresponded chromium version and extract into libraries folder. As soon as installation is finished, you are ready to use Chromium in your project:
 
 ```js
 const chromiumBinary = require('chromium-binary');
