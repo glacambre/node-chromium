@@ -10,7 +10,7 @@
     "win32"
   ],
   "scripts": {
-    "prepack": "node writeRevisions.js",
+    "prepack": "node write-revisions.js",
     "postinstall": "node install.js",
     "test": "xo && ava --verbose -s"
   },
@@ -18,7 +18,8 @@
     "config.js",
     "index.js",
     "install.js",
-    "utils.js"
+    "utils.js",
+    "operationSystemRevisions.json"
   ],
   "keywords": [
     "chromium",
