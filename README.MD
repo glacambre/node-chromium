@@ -1,7 +1,10 @@
-# node-chromium [![Build Status](https://travis-ci.org/dtolstyi/node-chromium.svg?branch=master)](https://travis-ci.org/dtolstyi/node-chromium) [![XO code style](https://img.shields.io/badge/code_style-XO-blue.svg)](https://github.com/sindresorhus/xo) [![npm version](https://badge.fury.io/js/chromium.svg)](https://badge.fury.io/js/chromium) [![Platforms](https://img.shields.io/badge/platforms-Win/Linux/Mac-lightgrey.svg)](https://github.com/dtolstyi/node-chromium)
+# chromium-binary [![Build Status](https://travis-ci.org/2do2go/node-chromium.svg?branch=master)](https://travis-ci.org/2do2go/node-chromium) [![XO code style](https://img.shields.io/badge/code_style-XO-blue.svg)](https://github.com/sindresorhus/xo) [![npm version](https://badge.fury.io/js/chromium-binary.svg)](https://badge.fury.io/js/chromium-binary) [![Platforms](https://img.shields.io/badge/platforms-Win/Linux/Mac-lightgrey.svg)](https://github.com/2do2go/node-chromium)
 > Chromium binaries for your NodeJS project
 
-**node-chromium** allows you to easily add [Chromium](https://www.chromium.org/) binaries to your project and use it for automation, testing, web scraping or just for fun.
+This is fork of [node-chromium](https://github.com/dtolstyi/node-chromium) by Dmytro Tolstyi.
+
+**node-chromium** allows you to easily add [Chromium](https://www.chromium.org/) binaries of desired version to your project and use it for automation, testing, web scraping or just for fun.
+Chromium version will correspond to package version, i.e. if package version is 60.0.3112-0 then chromium 60.0.3112.0 will be installed.
 
 ## Why Chromium?
 [Chromium](https://www.chromium.org/) is an open-source web browser developed and maintained by The Chromium Project. Google Chrome, also released in 2008, is a proprietary web browser developed and maintained by Google. The reason why Chrome and Chromium are tied to each other is that Chome borrows Chromium’s source code.  
@@ -9,19 +12,19 @@ The main benefit of using Chromium is that it **doesn't** include all the propri
 You can see full list of differences in [Fossbytes article](https://fossbytes.com/difference-google-chrome-vs-chromium-browser/).
 
 ## Usage
-Depending on your needs, you can install module into **devDependencies** (`--save-dev`) or production **dependencies** (`--save`)
+Depending on your needs, you can install module into **devDependencies** (`--save-dev`) or production **dependencies** (`--save`).
 
 ```
-npm install --save chromium
+npm install --save chromium-binary
 ```
 
-During the installation process **node-chromium** will find the latest suitable build for your platform, download it and extract into libraries folder. As soon as installation is finished, you are ready to use Chromium in your project:
+During the installation process **node-chromium** will download corresponded chromium version and extract into libraries folder. As soon as installation is finished, you are ready to use Chromium in your project:
 
 ```js
-const chromium = require('chromium');
+const chromiumBinary = require('chromium-binary');
 const {execFile} = require('child_process');
 
-execFile(chromium.path, ['https://google.com'], err => {
+execFile(chromiumBinary.path, ['https://google.com'], err => {
 	console.log('Hello Google!');
 });
 ```
@@ -31,7 +34,7 @@ It's extremely easy to use **node-chromium** with **selenium-webdriver** to perf
 First, install all dependencies
 
 ```
-npm install --save chromium chromedriver selenium-webdriver
+npm install --save chromium-binary@60.0.3112-0 chromedriver@2.33.0 selenium-webdriver@3.6.0
 ```
 
 After the installation is finished, create simple script that opens Google Search home page and takes it's screenshot in headless mode.
@@ -40,13 +43,13 @@ After the installation is finished, create simple script that opens Google Searc
 const fs = require('fs');
 const webdriver = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
-const chromium = require('chromium');
+const chromiumBinary = require('chromium-binary');
 require('chromedriver');
 
 async function start() {
 
     let options = new chrome.Options();
-    options.setChromeBinaryPath(chromium.path);
+    options.setChromeBinaryPath(chromiumBinary.path);
     options.addArguments('--headless');
     options.addArguments('--disable-gpu');
     options.addArguments('--window-size=1280,960');

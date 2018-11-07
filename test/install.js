@@ -5,23 +5,20 @@ import test from 'ava';
 const fs = require('fs');
 const rimraf = require('rimraf');
 
-const utils = require('./utils');
-const config = require('./config');
-const chromium = require('./install');
+const utils = require('../utils');
+const config = require('../config');
 
-test.before(t => {
+test.before(async () => {
     // Deleting output folder
     const outPath = config.BIN_OUT_PATH;
     console.log(`Deleting output folder: [${outPath}]`);
+    console.log('Creating operationSystemRevisions file');
 
     if (fs.existsSync(outPath)) {
         rimraf.sync(outPath);
     }
-    t.pass();
-});
 
-test('Canary Test', t => {
-    t.pass();
+    await require('../write-revisions');
 });
 
 test('Before Install Process', t => {
@@ -30,7 +27,7 @@ test('Before Install Process', t => {
 });
 
 test('Chromium Install', async t => {
-    await chromium.then(() => {
+    await (require('../install')).then(() => {
         const binPath = utils.getOsChromiumBinPath();
         t.true(fs.existsSync(binPath), `Chromium binary is not found in: [${binPath}]`);
     });

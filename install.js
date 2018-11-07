@@ -7,46 +7,25 @@ const tmp = require('tmp');
 
 const config = require('./config');
 const utils = require('./utils');
+const operationSystemRevisions = require('./operationSystemRevisions');
 
-const CDN_URL = 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/';
+function getOperationSystemRevision(platform, architecture) {
+    const osWithRevision = operationSystemRevisions.find(operationSystem => {
+        let sameOs = operationSystem.platform === platform;
 
-function getOsCdnUrl() {
-    let url = CDN_URL;
-
-    const platform = process.platform;
-
-    if (platform === 'linux') {
-        url += 'Linux';
-        if (process.arch === 'x64') {
-            url += '_x64';
+        if (operationSystem.architecture) {
+            sameOs = sameOs && (operationSystem.architecture === architecture);
         }
-    } else if (platform === 'win32') {
-        url += 'Win';
-        if (process.arch === 'x64') {
-            url += '_x64';
-        }
-    } else if (platform === 'darwin') {
-        url += 'Mac';
-    } else {
-        console.log('Unknown platform or architecture found:', process.platform, process.arch);
+
+        return sameOs;
+    });
+
+    if (!osWithRevision) {
+        console.log('Unknown platform or architecture found:', platform, architecture);
         throw new Error('Unsupported platform');
     }
 
-    return url;
-}
-
-function getLatestRevisionNumber() {
-    return new Promise((resolve, reject) => {
-        const url = getOsCdnUrl() + '%2FLAST_CHANGE?alt=media';
-        got(url)
-            .then(response => {
-                resolve(response.body);
-            })
-            .catch(err => {
-                console.log('An error occured while trying to retrieve latest revision number', err);
-                reject(err);
-            });
-    });
+    return osWithRevision.revision;
 }
 
 function createTempFile() {
@@ -62,17 +41,43 @@ function createTempFile() {
     });
 }
 
-function downloadChromiumRevision(revision) {
+function getCdnDownloadStream(cdnUrl) {
     return new Promise((resolve, reject) => {
-        createTempFile()
-            .then(path => {
+        const stream = got.stream(cdnUrl);
+
+        stream.on('error', error => {
+            if (error.statusCode === 404) {
+                resolve(null);
+            } else {
+                reject(error);
+            }
+        });
+
+        stream.on('response', () => resolve(stream));
+    });
+}
+
+function downloadChromium() {
+    return new Promise((resolve, reject) => {
+        const platform = process.platform;
+        const architecture = process.arch;
+
+        const revision = getOperationSystemRevision(platform, architecture);
+        const cdnUrls = utils.getOsCdnUrls({
+            platform,
+            architecture,
+            revision
+        });
+
+        const promises = cdnUrls.map(cdnUrl => getCdnDownloadStream(cdnUrl));
+        promises.push(createTempFile());
+
+        Promise.all(promises)
+            .then(promiseResults => {
+                const path = promiseResults.pop();
+                const downloadStream = promiseResults.find(promiseResult => promiseResult);
                 console.log('Downloading Chromium archive from Google CDN');
-                const url = getOsCdnUrl() + `%2F${revision}%2F` + utils.getOsChromiumFolderName() + '.zip?alt=media';
-                got.stream(url)
-                    .on('error', error => {
-                        console.log('An error occurred while trying to download Chromium archive', error);
-                        reject(error);
-                    })
+                downloadStream
                     .pipe(fs.createWriteStream(path))
                     .on('error', error => {
                         console.log('An error occurred while trying to save Chromium archive to disk', error);
@@ -100,8 +105,6 @@ function unzipArchive(archivePath, outputFolder) {
     });
 }
 
-module.exports = getLatestRevisionNumber()
-    .then(downloadChromiumRevision)
+module.exports = downloadChromium()
     .then(path => unzipArchive(path, config.BIN_OUT_PATH))
     .catch(err => console.error('An error occurred while trying to setup Chromium. Resolve all issues and restart the process', err));
-
