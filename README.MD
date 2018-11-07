@@ -1,4 +1,4 @@
-# chromium-binary [![Build Status](https://travis-ci.org/dtolstyi/node-chromium.svg?branch=master)](https://travis-ci.org/dtolstyi/node-chromium) [![XO code style](https://img.shields.io/badge/code_style-XO-blue.svg)](https://github.com/sindresorhus/xo) [![npm version](https://badge.fury.io/js/chromium.svg)](https://badge.fury.io/js/chromium) [![Platforms](https://img.shields.io/badge/platforms-Win/Linux/Mac-lightgrey.svg)](https://github.com/dtolstyi/node-chromium)
+# chromium-binary [![Build Status](https://travis-ci.org/2do2go/node-chromium.svg?branch=master)](https://travis-ci.org/2do2go/node-chromium) [![XO code style](https://img.shields.io/badge/code_style-XO-blue.svg)](https://github.com/sindresorhus/xo) [![npm version](https://badge.fury.io/js/chromium-binary.svg)](https://badge.fury.io/js/chromium-binary) [![Platforms](https://img.shields.io/badge/platforms-Win/Linux/Mac-lightgrey.svg)](https://github.com/2do2go/node-chromium)
 > Chromium binaries for your NodeJS project
 
 This is fork of [node-chromium](https://github.com/dtolstyi/node-chromium) by Dmytro Tolstyi.
