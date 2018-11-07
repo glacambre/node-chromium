@@ -15,7 +15,7 @@ You can see full list of differences in [Fossbytes article](https://fossbytes.co
 Depending on your needs, you can install module into **devDependencies** (`--save-dev`) or production **dependencies** (`--save`).
 
 ```
-npm install --save chromium
+npm install --save chromium-binary
 ```
 
 During the installation process **node-chromium** will download corresponded chromium version and extract into libraries folder. As soon as installation is finished, you are ready to use Chromium in your project:
@@ -34,7 +34,7 @@ It's extremely easy to use **node-chromium** with **selenium-webdriver** to perf
 First, install all dependencies
 
 ```
-npm install --save chromium-binary chromedriver selenium-webdriver
+npm install --save chromium-binary@60.0.3112-0 chromedriver@2.33.0 selenium-webdriver@3.6.0
 ```
 
 After the installation is finished, create simple script that opens Google Search home page and takes it's screenshot in headless mode.
