@@ -11,6 +11,8 @@ module.exports = {
         let chromiumFolderNamePostfix = platform;
         if (platform === 'darwin') {
             chromiumFolderNamePostfix = 'mac';
+        } else if (platform === 'win32') {
+            chromiumFolderNamePostfix = 'win';
         }
         const chromiumFolderName = `chrome-${chromiumFolderNamePostfix}`;
 
