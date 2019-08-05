@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "extract-zip": "^1.6.5",
-    "got": "^7.1.0",
+    "got": "9.6.0",
     "tmp": "0.0.33"
   },
   "devDependencies": {
